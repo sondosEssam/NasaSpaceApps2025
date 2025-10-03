@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+
+    overflow: hidden;
+    z-index: 1;
+    background: none;
+}
+canvas{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  overflow: hidden;
+}

@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&family=Rubik:ital,wght@0,300..900;1,300..900&family=Russo+One&display=swap');
+/* postcss-disable-next-line */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+      /* === Hybrid NASA + Pollution Awareness Palette === */
+
+  /* Base / Backgrounds */
+  --color-space-black: #0D0D0D;   /* deep space */
+  --color-nasa-blue:   #0B3D91;   /* primary UI / branding */
+  --color-white:       #F1FAEE;   /* text, highlights */
+
+  /* Air Quality */
+  --color-clean-air:   #00B4D8;   /* clean / good air */
+  --color-pollution:   #FF8800;   /* moderate pollution */
+  --color-alert-red:   #E63946;   /* critical pollution */
+
+  /* Neutral / Secondary */
+  --color-gray:        #6C757D;   /* neutral backgrounds, borders */
+/* backgrounds */
+  --gradient-space: linear-gradient(135deg, #0B3D91, #0D0D0D);
+  --gradient-atmosphere: linear-gradient(160deg, #0B3D91, #00B4D8, #0D0D0D);
+  --gradient-pollution: linear-gradient(
+    160deg,
+    rgba(0, 180, 216, 0.7), /* cyan with opacity */
+    rgba(228, 134, 26, 0.7), /* orange with opacity */
+    rgba(186, 55, 66, 0.7)   /* red with opacity */
+  );
+  --gradient-glow: radial-gradient(circle at top left, #0B3D91, #0D0D0D);
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-attachment: fixed;
+
+  font-family: "Russo One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+html, body {
+  overflow-x: hidden; /* stops particles from bleeding past container */
+}
