@@ -24,7 +24,7 @@ ngAfterViewInit() {
     let headingBlockElements = this.getNatives(this.headingBlocks);
     let buttonBlockElements = this.getNatives(this.buttonBlocks);
     gsap.registerPlugin(MotionPathPlugin);
-    timeline.from(headingBlockElements, { x: -300, duration: 1, stagger: 0.5, ease: "power2.out", delay:7.5 }).
+    timeline.from(headingBlockElements, { x: -300, duration: 1, stagger: 0.5, ease: "power2.out",  }).
     from(buttonBlockElements, { y: 100, opacity: 0, duration: 1, stagger: 0.5, ease: "power2.out", delay:"=+0"}).
     from("#satellite", {
   duration: 2,
