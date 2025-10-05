@@ -1,0 +1,7 @@
+flask
+numpy
+pandas
+xgboost
+scikit-learn
+joblib
+earthengine-api

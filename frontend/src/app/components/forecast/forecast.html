@@ -1,0 +1,180 @@
+<div class="flex flex-col justify-center items-center mx-auto  w-[90%] min-h-[150vh] ">
+  <h1 class="md:text-3xl text-xl font-bold mb-4 text-center m-1">Day Air Quality Forecast</h1>
+  <p class="md:text-sm text-xs font-bold m-1 text-gray-600">
+    Discover the air quality or pollution levels in your area
+  </p>
+
+  <select
+    name="timeRange"
+    id="timerange"
+    (change)="onTimeRangeChange($event)"
+    class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+  >
+    <option value="Hours">Hours</option>
+    <option value="Days">Days</option>
+    <option value="Months">Months</option>
+  </select>
+
+  <!-- Button only -->
+  <button
+    (click)="getForecast();" [disabled]="isLoading" 
+    class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+  >
+        <!-- Loading spinner -->
+    <svg 
+      *ngIf="isLoading" 
+      class="animate-spin h-4 w-4 text-white" 
+      xmlns="http://www.w3.org/2000/svg" 
+      fill="none" 
+      viewBox="0 0 24 24"
+    >
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <span>{{ isLoading ? 'Loading...' : 'Get Forecast' }}</span>
+  </button>
+
+    
+  <!-- Loading spinner overlay -->
+  <div 
+    *ngIf="isLoading && resultClicked" 
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  >
+    <div class="bg-white p-8 rounded-lg shadow-xl flex flex-col items-center">
+      <!-- Large spinner -->
+      <svg 
+        class="animate-spin h-12 w-12 text-blue-500 mb-4" 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+<h3 class="text-lg font-semibold text-gray-800 mb-2">Loading Forecast Data</h3>
+      <p class="text-gray-600 text-center">Please wait while we fetch your air quality forecast...</p>
+      
+      <!-- Progress bar -->
+      <div class="w-64 bg-gray-200 rounded-full h-2 mt-4">
+        <div class="bg-blue-500 h-2 rounded-full animate-pulse" style="width: 60%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forecast results appear below the button -->
+  <ng-container *ngIf="resultClicked && !isLoading">
+    <div class="pred-result mt-8 p-6 bg-gray-900 rounded-2xl shadow-lg text-gray-200 w-full max-w-5xl">
+      <h2 class="text-2xl font-semibold mb-4 text-center text-teal-400">
+        Forecast Results
+      </h2>
+ <div class="overflow-auto h-[360px]">
+        <table class="min-w-full border border-gray-700 rounded-lg overflow-scroll">
+          <thead class="bg-gray-800 text-gray-300 uppercase text-sm">
+            <tr>
+              <th class="py-3 px-6 text-left">Date</th>
+              <th class="py-3 px-6 text-left">AQI</th>
+              <th class="py-3 px-6 text-left">Pollution Result</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            <ng-container *ngIf="forecastData && forecastData.length != 0">
+              <tr
+                *ngFor="let item of forecastData"
+                class="hover:bg-gray-800 transition-colors duration-150"
+              >
+                <td class="py-3 px-6">{{ item?.time | date: 'medium' }}</td>
+                <td
+                  class="py-3 px-6 font-semibold text-lg"
+                  [class.text-green-400]="item.AQI_pred < 100"
+                  [class.text-yellow-400]="item.AQI_pred >= 100 && item.AQI_pred < 200"
+                  [class.text-red-400]="item.AQI_pred >= 200"
+                >
+                  {{ item?.AQI_pred }}
+                </td>
+                <td class="py-3 px-6">
+  <span
+                    class="px-3 py-1 rounded-full text-sm font-medium"
+                    [class.bg-green-500/20]="!item.polluted"
+                    [class.text-green-400]="!item.polluted"
+                    [class.bg-red-500/20]="item.polluted"
+                    [class.text-red-400]="item.polluted"
+                  >
+                    {{ item.polluted ? 'Polluted' : 'Not Polluted' }}
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <app-forecast-chart class="w-full" [foreCastData]="forecastData"></app-forecast-chart>
+  </ng-container>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Forecast results appear below the button
+  <ng-container *ngIf="resultClicked">
+    <div
+      class="pred-result mt-8 p-6 bg-gray-900 rounded-2xl shadow-lg text-gray-200 w-full max-w-5xl"
+    >
+      <h2 class="text-2xl font-semibold mb-4 text-center text-teal-400">
+        Forecast Results
+      </h2>
+
+      <div class="overflow-auto h-[360px]">
+        <table class="min-w-full border border-gray-700 rounded-lg overflow-scroll ">
+          <thead class="bg-gray-800 text-gray-300 uppercase text-sm">
+            <tr>
+              <th class="py-3 px-6 text-left">Date</th>
+              <th class="py-3 px-6 text-left">AQI</th>
+              <th class="py-3 px-6 text-left">Pollution Result</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            <ng-container *ngIf="forecastData && forecastData.length != 0">
+              <tr
+                *ngFor="let item of forecastData"
+                class="hover:bg-gray-800 transition-colors duration-150"
+              >
+                <td class="py-3 px-6">{{ item?.time | date: 'medium' }}</td>
+                <td
+                  class="py-3 px-6 font-semibold text-lg"
+                  [class.text-green-400]="item.AQI_pred < 100"
+                  [class.text-yellow-400]="item.AQI_pred >= 100 && item.AQI_pred < 200"
+                  [class.text-red-400]="item.AQI_pred >= 200"
+                >
+                  {{ item?.AQI_pred }}
+                </td>
+                <td class="py-3 px-6">
+                  <span
+                    class="px-3 py-1 rounded-full text-sm font-medium"
+                    [class.bg-green-500/20]="!item.polluted"
+                    [class.text-green-400]="!item.polluted"
+                    [class.bg-red-500/20]="item.polluted"
+                    [class.text-red-400]="item.polluted"
+                  >
+                    {{ item.polluted ? 'Polluted' : 'Not Polluted' }}
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <app-forecast-chart class="w-full" [foreCastData]="forecastData"></app-forecast-chart>
+  </ng-container>
+  </div> -->
