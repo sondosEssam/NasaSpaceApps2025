@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PollutionService {
-  baseUrl = 'http://localhost:5000'
+  baseUrl = 'http://localhost:3000'
   constructor(private http: HttpClient){}
 
   getPollutionData():Observable<PollutionData[]> {

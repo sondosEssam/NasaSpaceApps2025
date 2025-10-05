@@ -19,7 +19,13 @@ export class Forecast {
   hours!: number;
   body: any;
   resultClicked:boolean = false;
+  //loading 
+    isLoading: boolean = false; // Add loading state
+
   start_time: Date = new Date();
+
+
+
   onTimeRangeChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedTimeRange = selectElement.value;
@@ -47,20 +53,25 @@ export class Forecast {
   getForecast(){
     this.hoursHandler();
     console.log(this.body);
-    
+    //set loading to true 
+    this.isLoading = true;
+    this.resultClicked = true;
     this.forCastService.getForecastData(this.body).subscribe({
       next: (data) => {
         console.log(data);
         
         // Only assign if the event is an HttpResponse
         if (data) {
-          this.forecastData = data;
+          this.forecastData = data.predictions;
+
           console.log(this.forecastData);
         }
+        this.isLoading = false; // Set loading to false when data is received
       },
       error:(error)=>{
         console.log(error);
         console.log(this.body);
+        this.isLoading = false; // Set loading to false on error
       }
     }
       )
