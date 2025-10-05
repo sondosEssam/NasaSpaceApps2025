@@ -4,6 +4,7 @@
     overflow: hidden;
     z-index: 1;
     background: none;
+    overflow-y: hidden;
 }
 canvas{
   position: fixed;

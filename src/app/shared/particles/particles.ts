@@ -27,13 +27,21 @@ particlesOptions = {
       },
     },
     particles: {
-      color: { value: ["#000", "#000"], animation: { enable: true, speed: 20, sync: true } },
+      color: {   
+        value: 
+        { h: 220, s: { min: 60, max: 100 }, l: { min: 40, max: 70 } },
+         animation: {
+          enable: true,
+          speed: 5,
+          sync: false
+        }
+ },
       links: {
         color: "#6C757D",
-        distance: 50,
+        distance: 100,
         enable: true,
         opacity: 0.5,
-        width: 1,
+        width: 2,
       },
       move: {
         direction: MoveDirection.none,
@@ -45,11 +53,11 @@ particlesOptions = {
       },
       number: {
         density: { enable: true, area: 800 },
-        value: 100,
+        value: 30,
       },
       opacity: { value: 0.5 },
       shape: { type: "circle" },
-      size: { value: { min: 1, max: 5 } },
+      size: { value: { min: 6, max: 10} },
       
     },
      detectRetina: false,
